@@ -1,15 +1,17 @@
 import mesa_reader as mr
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor
-import astropy.units as u
 import csv
 import os
 
+slices = False
+
+masses = [
+    15, 16, 17, 18, 19, 20, 21, 22
+]
+
 couplings = [
-    'g-7.0',
-    'g-7.5',
-    'g-7.75',
-    'g-8.0'
+    -8.5
 ]
 
 isotopes = [
@@ -55,9 +57,9 @@ for iso in isotopes:
 
 def get_profile(i):
 
-    l = mr.MesaLogDir(coupling)
+    l = mr.MesaLogDir(inpath)
     #bulk
-    b = mr.MesaData(f'{coupling}/profile{l.profile_numbers[i]}.data')
+    b = mr.MesaData(f'{inpath}/profile{l.profile_numbers[i]}.data')
 
     #header
     h = b.header_data 
@@ -77,7 +79,7 @@ def get_profile(i):
         'm': b.data('mass'), # M_sun
         'dt': h['time_step'], # year
         'r': b.data('radius'), # R_sun
-        'dr': (b.data('dr') * u.cm).to_value(u.R_sun),
+        'dr': b.data('dr'), # cm
         'eps_grav': b.data('eps_grav'), # ergs / g s
         'eps_nuc': b.data('eps_nuc'), 
         # 'eps_nuc_minus_non_nuc_neu': b.data('eps_nuc_minus_non_nuc_neu'),
@@ -108,45 +110,55 @@ def get_profile(i):
 
     return p
 
-for c in couplings:
-    coupling = c
-    l = mr.MesaLogDir(coupling)
-    N = len(l.profile_numbers)
-    # N = 2
-    profiles = list(ProcessPoolExecutor().map(get_profile, range(N)))
+for m in masses: 
+    for g in couplings:
 
-    if not os.path.exists(f'csv/{coupling}'):
-        os.makedirs(f'csv/{coupling}')
+        path = f'm{m:.1f}_g{g:+.2f}'
+        inpath = f'mesa/{path}'
+        outpath = f'csv/{path}'
+        print(path)
 
-    for p in profiles:
-        p['til'] = profiles[N-1]['age'] - p['age']
+        l = mr.MesaLogDir(inpath)
+        N = len(l.profile_numbers)
+        # N = 2
+        profiles = list(ProcessPoolExecutor().map(get_profile, range(N)))
 
-    with open(f'csv/{coupling}/index.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        p = profiles[0]
-        writer.writerow([ 
-            labels[key] 
-            for key in labels 
-            if np.isscalar(p[key])
-        ])
+
+        if not os.path.exists(outpath):
+            os.makedirs(outpath)
+
         for p in profiles:
-            writer.writerow(np.array([ 
-                p[key]
-                for key in labels
-                if np.isscalar(p[key])
-            ]).T)
+            p['til'] = profiles[N-1]['age'] - p['age']
 
-    for p in profiles:
-
-        with open(f'csv/{coupling}/slice_{p["model"]}.csv', 'w', newline='') as csvfile:
+        with open(f'{outpath}/index.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
+            p = profiles[0]
             writer.writerow([ 
                 labels[key] 
                 for key in labels 
-                if not np.isscalar(p[key])
+                if np.isscalar(p[key])
             ])
-            writer.writerows(np.array([ 
-                p[key][::-1]
-                for key in labels
-                if not np.isscalar(p[key])
-            ]).T)
+            for p in profiles:
+                writer.writerow(np.array([ 
+                    p[key]
+                    for key in labels
+                    if np.isscalar(p[key])
+                ]).T)
+
+        if not slices: 
+            continue
+
+        for p in profiles:
+
+            with open(f'{outpath}/slice_{p["model"]}.csv', 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow([ 
+                    labels[key] 
+                    for key in labels 
+                    if not np.isscalar(p[key])
+                ])
+                writer.writerows(np.array([ 
+                    p[key][::-1]
+                    for key in labels
+                    if not np.isscalar(p[key])
+                ]).T)
