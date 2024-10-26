@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ cp inlist_to_end_core_c_burn_header inlist
+ ./rn1
+ cp inlist_to_lgTmax_header inlist
+ ./rn1
+ cp inlist_to_cc_header inlist
+ ./rn1
+

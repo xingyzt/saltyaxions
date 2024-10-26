@@ -1,0 +1,463 @@
+
+&pgstar
+
+!pause = .true.
+
+pgstar_interval = 1
+pgstar_show_age_in_years = .true.
+pgstar_show_age_in_seconds = .false.
+pgstar_sleep = 0.0
+
+! some global grid plot settings at end
+
+pgstar_show_model_number = .false.
+pgstar_show_age = .false.
+
+pgstar_box_lw = 2
+pgstar_lw = 4
+
+!------------------------------------------------------------------------------------
+
+Grid6_win_flag = .true.
+Grid6_win_width = 17
+Grid6_win_aspect_ratio = 0.666
+
+! file output
+Grid6_file_flag = .true.
+Grid6_file_dir = 'Summary'
+Grid6_file_prefix = 'Grid6_'
+Grid6_file_interval = 1     ! output when mod(model_number,Grid1_file_interval)==0
+Grid6_file_width = 27        ! (inches) negative means use same value as for window
+Grid6_file_aspect_ratio = -1 ! negative means use same value as for window
+
+Summary_Burn_xmax = 10
+
+!------------------------------------------------------------------------------------
+
+! Abundance profile plot
+
+Abundance_win_flag = .true.
+
+! window properties
+Abundance_win_width = 20
+Abundance_win_aspect_ratio = 0.5
+         
+Abundance_xleft = 0.05
+Abundance_xright = 0.85
+Abundance_ybot = 0.10
+Abundance_ytop = 0.90
+Abundance_txt_scale = 0.8
+Abundance_title = ''
+
+! isotopes to plot
+
+Abundance_legend_max_cnt = 10
+Abundance_num_isos_to_show = 67
+
+Abundance_which_isos_to_show( 1) = 'na23'    
+Abundance_which_isos_to_show( 2) = 'h1'    
+Abundance_which_isos_to_show( 3) = 'h2'    
+Abundance_which_isos_to_show( 4) = 'he3'    
+Abundance_which_isos_to_show( 5) = 'he4'    
+Abundance_which_isos_to_show( 6) = 'li7'    
+Abundance_which_isos_to_show( 7) = 'be7'    
+Abundance_which_isos_to_show( 8) = 'be9'    
+Abundance_which_isos_to_show( 9) = 'be10'    
+Abundance_which_isos_to_show(10) = 'b8'    
+Abundance_which_isos_to_show(11) = 'c12'    
+Abundance_which_isos_to_show(12) = 'c13'    
+Abundance_which_isos_to_show(13) = 'n13'    
+Abundance_which_isos_to_show(14) = 'n14'    
+Abundance_which_isos_to_show(15) = 'n15'    
+Abundance_which_isos_to_show(16) = 'o14'    
+Abundance_which_isos_to_show(17) = 'o15'    
+Abundance_which_isos_to_show(18) = 'o16'    
+Abundance_which_isos_to_show(19) = 'o17'    
+Abundance_which_isos_to_show(20) = 'o18'    
+Abundance_which_isos_to_show(21) = 'f17'    
+Abundance_which_isos_to_show(22) = 'f18'    
+Abundance_which_isos_to_show(23) = 'f19'    
+Abundance_which_isos_to_show(24) = 'ne18'    
+Abundance_which_isos_to_show(25) = 'ne19'    
+Abundance_which_isos_to_show(26) = 'ne20'    
+Abundance_which_isos_to_show(27) = 'ne21'    
+Abundance_which_isos_to_show(28) = 'ne22'    
+Abundance_which_isos_to_show(29) = 'na21'    
+Abundance_which_isos_to_show(30) = 'na22'    
+Abundance_which_isos_to_show(31) = 'mg23'    
+Abundance_which_isos_to_show(32) = 'mg24'    
+Abundance_which_isos_to_show(33) = 'mg25'    
+Abundance_which_isos_to_show(34) = 'al27'    
+Abundance_which_isos_to_show(35) = 'si27'    
+Abundance_which_isos_to_show(36) = 'si28'    
+Abundance_which_isos_to_show(37) = 'p30'    
+Abundance_which_isos_to_show(38) = 'p31'    
+Abundance_which_isos_to_show(39) = 's31'    
+Abundance_which_isos_to_show(40) = 's32'    
+Abundance_which_isos_to_show(41) = 'cl35'    
+Abundance_which_isos_to_show(42) = 'ar36'    
+Abundance_which_isos_to_show(43) = 'k39'    
+Abundance_which_isos_to_show(44) = 'ca40'    
+Abundance_which_isos_to_show(45) = 'sc43'    
+Abundance_which_isos_to_show(46) = 'ti44'    
+Abundance_which_isos_to_show(47) = 'v47'    
+Abundance_which_isos_to_show(48) = 'cr48'    
+Abundance_which_isos_to_show(49) = 'mn51'    
+Abundance_which_isos_to_show(50) = 'fe51'    
+Abundance_which_isos_to_show(51) = 'fe52'    
+Abundance_which_isos_to_show(52) = 'fe53'    
+Abundance_which_isos_to_show(53) = 'fe54'    
+Abundance_which_isos_to_show(54) = 'fe55'    
+Abundance_which_isos_to_show(55) = 'fe56'    
+Abundance_which_isos_to_show(56) = 'co55'    
+Abundance_which_isos_to_show(57) = 'ni55'    
+Abundance_which_isos_to_show(58) = 'ni56'    
+Abundance_which_isos_to_show(59) = 'ni57'    
+Abundance_which_isos_to_show(60) = 'ni58'    
+Abundance_which_isos_to_show(61) = 'ni59'    
+Abundance_which_isos_to_show(62) = 'ni60'    
+Abundance_which_isos_to_show(63) = 'ni61'    
+Abundance_which_isos_to_show(64) = 'ni62'    
+Abundance_which_isos_to_show(65) = 'ni63'    
+Abundance_which_isos_to_show(66) = 'ni64'    
+Abundance_which_isos_to_show(67) = 'ni65'    
+
+
+Abundance_xaxis_name = 'mass'
+Abundance_xmin = 0
+Abundance_xmax = 10
+
+         
+! number and size of isotope labels along curves
+num_abundance_line_labels = 10
+Abundance_line_txt_scale_factor = 0.6
+
+
+! number and size of isotopes on legend         
+Abundance_legend_max_cnt = 10
+Abundance_legend_txt_scale_factor = 1.3
+         
+! yaxis limits 
+Abundance_log_mass_frac_min = -6 !-6.4 ! -3.5 
+Abundance_log_mass_frac_max =  0.3
+         
+! file output
+Abundance_file_flag = .true.
+Abundance_file_dir = 'Abundance'
+Abundance_file_prefix = 'abund_'
+Abundance_file_width = -1        ! (inches) negative means use same value as for window
+Abundance_file_aspect_ratio = -1 ! negative means use same value as for window
+Abundance_file_interval = 1
+
+
+!------------------------------------------------------------------------------------
+
+! power plot
+
+Power_win_flag = .true.
+Power_win_width = 20
+Power_win_aspect_ratio = 0.5
+Power_title = ''      
+
+Power_xleft = 0.05
+Power_xright = 0.85
+Power_ybot = 0.10
+Power_ytop = 0.90
+Power_txt_scale = 0.8
+Power_title = ' '
+
+Power_legend_max_cnt = 20
+Power_legend_txt_scale_factor = 1.0 ! relative to other text
+
+! power yaxis limits -- to override system default selections
+Power_ymin = -5.0 !   -101d0 ! only used if /= -101d0
+Power_ymax = 25.0 ! -101d0 ! only used if /= -101d0
+
+Power_xmin = 0.0
+Power_xmax = 3.0
+
+! file output
+Power_file_flag = .false.
+Power_file_dir = 'png'
+Power_file_prefix = 'power_'
+Power_file_interval = 5 ! output when mod(model_number,Power_file_interval)==0
+Power_file_width = -1 ! (inches) negative means use same value as for window
+Power_file_aspect_ratio = -1 ! negative means use same value as for window
+
+
+!------------------------------------------------------------------------------------
+
+! mixing plot
+
+Mixing_xmin = 0.0 
+Mixing_xmax = 1.6 ! -101d0 
+Mixing_legend_txt_scale_factor = 1.4 ! relative to other text
+
+Mixing_show_rotation_details = .false.
+
+!Mixing_win_flag = .true.
+!Mixing_file_flag = .true.
+Mixing_file_dir = 'png'
+Mixing_file_prefix = 'mixing_'
+Mixing_file_interval = 1 ! output when `mod(model_number,Mixing_file_interval)==0`
+Mixing_file_width = -1 ! (inches) negative means use same value as for window
+Mixing_file_aspect_ratio = -1 ! negative means use same value as for window
+
+
+!-----------------------------------------------------------------------
+
+! TRho window
+      ! history of central temperature vs. density
+
+    TRho_txt_scale = 0.7
+    TRho_title = ''
+
+    TRho_logT_min = -101d0
+    TRho_logT_max = -101d0
+    TRho_logRho_min = -101d0
+    TRho_logRho_max = -101d0
+    show_TRho_degeneracy_line = .true.
+
+
+
+!-----------------------------------------------------------------------
+
+   !# HR window
+      ! history of `lg_L` vs. `lg_Teff`
+
+         HR_win_flag = .true.
+
+         HR_win_width = 6
+         HR_win_aspect_ratio = 0.75 ! aspect_ratio = height/width
+
+         HR_xleft = 0.15
+         HR_xright = 0.85
+         HR_ybot = 0.15
+         HR_ytop = 0.85
+         HR_txt_scale = 0.7 !1.0
+         HR_title = ''
+
+         ! axis limits -- to override system default selections
+         HR_logT_min = -101d0 ! only used if /= -101d0
+         HR_logT_max = -101d0 ! only used if /= -101d0
+         HR_logL_min = -101d0 ! only used if /= -101d0
+         HR_logL_max = -101d0 ! only used if /= -101d0
+
+         HR_logL_margin = 0.1
+         HR_logT_margin = 0.1
+         HR_dlogT_min = -1
+         HR_dlogL_min = -1
+
+         HR_step_min = -1 ! only plot models with model number >= this
+         HR_step_max = -1 ! only plot models with model number <= this
+
+         show_HR_classical_instability_strip = .true.
+         show_HR_Mira_instability_region = .false.
+         show_HR_WD_instabilities = .false.
+
+         show_HR_target_box = .false.
+         HR_target_n_sigma = -3 ! -n means show sig 1..n
+         HR_target_logL = 0
+         HR_target_logL_sigma = 0
+         HR_target_logT = 0
+         HR_target_logT_sigma = 0
+
+         show_HR_annotation1 = .false.
+         show_HR_annotation2 = .false.
+         show_HR_annotation3 = .false.
+
+         HR_fname = '' ! file name for extra HR data
+
+         ! Enables calling a subroutine to add extra information to a plot
+         ! see `$MESA_DIR/star/other/pgstar_decorator.f90`
+         HR_use_decorator = .false.
+
+
+         ! file output
+         HR_file_flag = .false.
+         HR_file_dir = 'png'
+         HR_file_prefix = 'hr_'
+         HR_file_interval = 5 ! output when `mod(model_number,HR_file_interval)==0`
+         HR_file_width = -1 ! (inches) negative means use same value as for window
+         HR_file_aspect_ratio = -1 ! negative means use same value as for window
+
+!-----------------------------------------------------------------------
+
+    History_Panels1_title = ''
+
+    History_Panels1_xaxis_name = 'model_number'
+    History_Panels1_max_width = -1
+
+    !History_Panels1_xaxis_name = 'star_age'
+    !History_Panels1_max_width = 10
+
+    History_Panels1_txt_scale = 0.75
+    History_Panels1_xmin = -101d0
+    History_Panels1_xmax = -101d0
+    History_Panels1_dxmin = -1
+    History_Panels1_xaxis_reversed = .false.
+    History_Panels1_xaxis_log = .false.
+    History_Panels1_xmargin = 0.0
+
+      ! ::
+
+    History_Panels1_num_panels = 4
+
+      ! ::
+
+    History_Panels1_yaxis_name(1) = 'log_L'
+    History_Panels1_yaxis_reversed(1) = .false.
+    History_Panels1_ymin(1) = -101d0
+    History_Panels1_ymax(1) = -101d0
+    History_Panels1_dymin(1) = 0.14
+
+      ! ::
+
+    History_Panels1_other_yaxis_name(1) = 'log_Teff'
+    History_Panels1_other_yaxis_reversed(1) = .false.
+    History_Panels1_other_ymin(1) = -101d0
+    History_Panels1_other_ymax(1) = -101d0
+    History_Panels1_other_dymin(1) = 0.14
+
+      ! ::
+
+    History_Panels1_yaxis_name(2) = 'lum_div_Ledd'
+    History_Panels1_yaxis_reversed(2) = .false.
+    History_Panels1_ymin(2) = -101d0
+    History_Panels1_ymax(2) = -101d0
+    History_Panels1_dymin(2) = 0.14
+
+      ! ::
+
+    History_Panels1_other_yaxis_name(2) = 'log_max_T' ! 'v_surf_km_s'
+    History_Panels1_other_yaxis_reversed(2) = .false.
+    History_Panels1_other_ymin(2) = -101d0
+    History_Panels1_other_ymax(2) = -101d0
+    History_Panels1_other_dymin(2) = 0.14
+
+      ! ::
+
+    History_Panels1_yaxis_name(3) = 'radius'
+    History_Panels1_yaxis_reversed(3) = .false.
+    History_Panels1_ymin(3) = -101d0
+    History_Panels1_ymax(3) = -101d0
+    History_Panels1_dymin(3) = 0.14
+
+      ! ::
+
+    History_Panels1_other_yaxis_name(3) = 'log_cntr_Rho'
+    History_Panels1_other_yaxis_reversed(3) = .false.
+    History_Panels1_other_ymin(3) = -101d0
+    History_Panels1_other_ymax(3) = -101d0
+    History_Panels1_other_dymin(3) = 0.14
+      ! ::
+
+    History_Panels1_yaxis_name(4) = ''
+    History_Panels1_yaxis_reversed(4) = .false.
+    History_Panels1_ymin(4) = -101d0
+    History_Panels1_ymax(4) = -101d0
+    History_Panels1_dymin(4) = 0.14
+
+      ! ::
+
+    History_Panels1_other_yaxis_name(4) = 'log_dt'
+    History_Panels1_other_yaxis_reversed(4) = .false.
+    History_Panels1_other_ymin(4) = -101d0
+    History_Panels1_other_ymax(4) = -101d0
+    History_Panels1_other_dymin(4) = 0.14
+
+
+!-----------------------------------------------------------------------
+
+! some global grid plot settings
+
+pgstar_grid_show_title = .true.
+pgstar_grid_title_scale = 1.0
+pgstar_grid_title_lw = 3
+pgstar_grid_title_disp = 2.5 ! 1.8
+pgstar_grid_title_coord = 0.5
+pgstar_grid_title_fjust = 0.5
+
+pgstar_age_scale = 0.8
+pgstar_age_disp = 3.0
+pgstar_age_coord = 0.0
+pgstar_age_fjust = 0.0
+
+pgstar_xaxis_label_scale = 1.3
+pgstar_left_yaxis_label_scale = 1.3
+pgstar_xaxis_label_disp = 2.2
+pgstar_left_yaxis_label_disp = 3.1
+pgstar_right_yaxis_label_disp = 4.1
+
+pgstar_model_scale = 0.8
+pgstar_model_disp = 3.0
+pgstar_model_coord = 1.0
+pgstar_model_fjust = 1.0
+
+! white_on_black flags -- true means white foreground color on black background
+file_white_on_black_flag = .true.
+file_device = 'png'            ! options 'png' and 'vcps' for png and postscript respectively
+file_extension = 'png'           ! common names are 'png' and 'ps'
+
+
+!file_white_on_black_flag = .false.
+!file_device = 'vcps'            ! options 'png' and 'vcps' for png and postscript respectively
+!file_extension = 'ps'           ! common names are 'png' and 'ps'
+
+
+kipp_win_flag=.true.
+kipp_file_flag=.true.
+Kipp_mix_interval = 50
+Kipp_show_luminosities = .true.
+Kipp_win_width = 20
+Kipp_win_aspect_ratio = 0.5
+
+!-------------------
+
+! Text_Summary windows
+
+Text_Summary1_num_rows = 6 ! <= 20
+Text_Summary1_num_cols = 5 ! <= 20
+Text_Summary1_name(:,:) = ''
+
+
+Text_Summary1_name(1,1) = 'model_number'
+Text_Summary1_name(1,2) = 'log_dt'
+Text_Summary1_name(1,3) = 'Mass'
+Text_Summary1_name(1,4) = 'H_cntr'
+Text_Summary1_name(1,5) = 'H_rich'
+
+Text_Summary1_name(2,1) = 'non_fe_core_infall'  
+Text_Summary1_name(2,2) = 'star_age'
+Text_Summary1_name(2,3) = 'cz_bot_mass'
+Text_Summary1_name(2,4) = 'He_cntr'
+Text_Summary1_name(2,5) = 'He_core'
+
+Text_Summary1_name(3,1) = 'fe_core_infall'
+Text_Summary1_name(3,2) = 'gamma1_min'
+Text_Summary1_name(3,3) = 'eta_cntr'
+Text_Summary1_name(3,4) = 'C_cntr'
+Text_Summary1_name(3,5) = 'CO_core'
+
+Text_Summary1_name(4,1) = 'log_max_T'
+Text_Summary1_name(4,2) = 'log_LH'
+Text_Summary1_name(4,3) = 'lg_Lnuc'
+Text_Summary1_name(4,4) = 'O_cntr'
+Text_Summary1_name(4,5) = 'Fe_core'
+
+Text_Summary1_name(5,1) = 'log_cntr_T'
+Text_Summary1_name(5,2) = 'log_LHe'
+Text_Summary1_name(5,3) = 'lg_Lneu'
+Text_Summary1_name(5,4) = 'Ne_cntr'
+Text_Summary1_name(5,5) = 'zones'
+
+Text_Summary1_name(6,1) = 'log_cntr_Rho'
+! Text_Summary1_name(6,2) = 'log_LZ'
+Text_Summary1_name(6,3) = 'lg_Lphoto'
+Text_Summary1_name(6,4) = 'Si_cntr'
+Text_Summary1_name(6,5) = 'retries'
+
+
+
+/ ! end of pgstar namelist
+
