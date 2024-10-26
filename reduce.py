@@ -6,9 +6,13 @@ import os
 
 slices = False
 
-masses = [ 15, 16, 17, 18, 19, 20, 21, 22 ]
+masses = [
+    15, 16, 17, 18, 19, 20, 21, 22
+]
 
-couplings = [ -9.0, -8.5 ]
+couplings = [
+    -8.5
+]
 
 isotopes = [
     'c12', 
@@ -99,10 +103,10 @@ def get_profile(i):
     p['lum_neu'] = np.cumsum((p['eps_non_nuc_neu'] * p['dm'])[::-1])[::-1]
     p['lum_gamma'] = np.cumsum((p['eps_nuc'] * p['dm'])[::-1])[::-1]
 
-    p['lum_a_surf'] = p['lum_a'][0]
-    p['lum_neu_surf'] = p['lum_neu'][0]
-    p['lum_gamma_surf'] = p['lum_gamma'][0]
-    p['T_core'] = p['T'][-1]
+    p['lum_a_surf'] = p['lum_a'][-1]
+    p['lum_neu_surf'] = p['lum_neu'][-1]
+    p['lum_gamma_surf'] = p['lum_gamma'][-1]
+    p['T_core'] = p['T'][0]
 
     return p
 
@@ -110,12 +114,13 @@ for m in masses:
     for g in couplings:
 
         path = f'm{m:.1f}_g{g:+.2f}'
-        inpath = f'logs/{path}'
+        inpath = f'mesa/{path}'
         outpath = f'csv/{path}'
         print(path)
 
         l = mr.MesaLogDir(inpath)
         N = len(l.profile_numbers)
+        # N = 2
         profiles = list(ProcessPoolExecutor().map(get_profile, range(N)))
 
 
