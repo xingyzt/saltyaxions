@@ -6,11 +6,13 @@ import os
 
 slices = False
 
-# masses = [ 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
-# couplings = [ -9.0, -8.5 ]
-masses = [ 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
-# masses = [ 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
-couplings = [ -8.0 ]
+masses = [
+    15, 16, 17, 18, 19, 20, 21, 22
+]
+
+couplings = [
+    -8.5
+]
 
 isotopes = [
     'c12', 
@@ -21,13 +23,11 @@ isotopes = [
 
 labels = {
     'model': 'slice',
-    'm': 'mass (Msun)',
-    'coupling': 'coupling',
     'age': 'age (years)',
     'til': 'time to core O depletion (years)',
     'dt': 'dt (years)',
     
-    'm_enc': 'mass enclosed (Msun)',
+    'm': 'mass enclosed (Msun)',
     'dm': 'dm (g)',
     'r': 'r (Rsun)',
     'dr': 'dr (cm)',
@@ -48,10 +48,6 @@ labels = {
     'lum_gamma_surf': 'surface lum_gamma (ergs/s)',
     'lum_neu_surf': 'surface lum_neu (ergs/s)',
     'lum_a_surf': 'surface lum_a (ergs/s)',
-    
-    'cum_e_gamma': 'cumulative e_gamma (ergs)',
-    'cum_e_neu': 'cumulative e_neu (ergs)',
-    'cum_e_a': 'cumulative e_a (ergs)',
 }
 
 for iso in isotopes:
@@ -80,7 +76,7 @@ def get_profile(i):
         'T': b.data('T'), # Kelvins,
         'log_T': b.data('logT'),
         'dm': b.data('dm'), # g
-        'm_enc': b.data('mass'), # M_sun
+        'm': b.data('mass'), # M_sun
         'dt': h['time_step'], # year
         'r': b.data('radius'), # R_sun
         'dr': b.data('dr'), # cm
@@ -107,44 +103,32 @@ def get_profile(i):
     p['lum_neu'] = np.cumsum((p['eps_non_nuc_neu'] * p['dm'])[::-1])[::-1]
     p['lum_gamma'] = np.cumsum((p['eps_nuc'] * p['dm'])[::-1])[::-1]
 
-    p['lum_a_surf'] = p['lum_a'][0]
-    p['lum_neu_surf'] = p['lum_neu'][0]
-    p['lum_gamma_surf'] = p['lum_gamma'][0]
-    p['T_core'] = p['T'][-1]
+    p['lum_a_surf'] = p['lum_a'][-1]
+    p['lum_neu_surf'] = p['lum_neu'][-1]
+    p['lum_gamma_surf'] = p['lum_gamma'][-1]
+    p['T_core'] = p['T'][0]
 
     return p
 
 for m in masses: 
     for g in couplings:
 
-        path = f'm{m:04.1f}_g{g:+04.2f}'
-        inpath = f'logs/{path}'
+        path = f'm{m:.1f}_g{g:+.2f}'
+        inpath = f'mesa/{path}'
         outpath = f'csv/{path}'
         print(path)
 
         l = mr.MesaLogDir(inpath)
         N = len(l.profile_numbers)
+        # N = 2
         profiles = list(ProcessPoolExecutor().map(get_profile, range(N)))
 
 
         if not os.path.exists(outpath):
             os.makedirs(outpath)
 
-        for (i, p) in enumerate(profiles):
-
+        for p in profiles:
             p['til'] = profiles[N-1]['age'] - p['age']
-
-            p['m'] = m
-            p['coupling'] = g
-
-            p['cum_e_a'] = p['lum_a_surf'] * p['dt'] * 31536000
-            p['cum_e_neu'] = p['lum_neu_surf'] * p['dt'] * 31536000
-            p['cum_e_gamma'] = p['lum_gamma_surf'] * p['dt'] * 31536000
-            
-            if i > 0:
-                p['cum_e_a'] += profiles[i-1]['cum_e_a']
-                p['cum_e_neu'] += profiles[i-1]['cum_e_neu']
-                p['cum_e_gamma'] += profiles[i-1]['cum_e_gamma']
 
         with open(f'{outpath}/index.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
