@@ -11,7 +11,7 @@
 - To change the effective axion-nuclear coupling, edit the `x_ctrl(99)` parameter in the `&controls` section of `mesa/inlist_common`.
   - The axion losses are calculated in `mesa/src/run_star_extras.f90`.
 - After a simulation with `[M]` solar masses and coupling `10^[G]`, you should rename the `mesa/LOGS` directory to `logs/m[M]_g[G]`,
-  where `[M]` is unsigned with two decimal places, and `[G]` is signed with two decimal places. For example, `logs/m20.0_g-8.50`.
+  where `[M]` is unsigned with one decimal place, and `[G]` is signed with two decimal places. For example, `logs/m20.0_g-8.50`.
 
 ## Data processing
 
