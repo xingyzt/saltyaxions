@@ -9,6 +9,8 @@
       reaction_for_special_factor(1) = 'r_c12_ag_o16'
       special_rate_factor(1) = 1
       filename_of_special_rate(1) = 'c12ag_deboer_sigma_0p0_2000_Tgrid.dat'
+	show_net_species_info = .true.
+	show_net_reactions_info = .true.
 
       reaction_for_special_factor(2) = 'r_he4_he4_he4_to_c12'
       special_rate_factor(2) = 1

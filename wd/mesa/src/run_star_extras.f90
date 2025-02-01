@@ -58,7 +58,7 @@
          allocate(E(nz))
 
          ierr = 0
-         i_na23 = 31 ! index of species
+         i_na23 = 15 ! index of species
 
          eps0 = 8.6E+27 ! ergs / g s; baseline
          T0 = 5.106E+9 ! Kelvins; baseline
@@ -193,7 +193,7 @@
          ierr = 0
          call star_ptr(id, s, ierr)
          if (ierr /= 0) return
-         how_many_extra_profile_columns = 0
+         how_many_extra_profile_columns = 1
       end function how_many_extra_profile_columns
       
       subroutine data_for_extra_profile_columns(id, n, nz, names, vals, ierr)

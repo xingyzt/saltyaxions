@@ -10,6 +10,8 @@ if not os.path.exists('logs'):
 
 m = float(input("mass: m/Msun = "))
 g = float(input("coupling: log(g) = "))
+if g < 0:
+    g = 10**g
 
 template_path = 'mesa'
 path = f'm{m:04.1f}_g{g:+04.2f}'
@@ -22,7 +24,7 @@ with open(f'{template_path}/inlist_common') as fin:
     with open(f'{sim_path}/inlist_common', "w") as fout:
         fout.write(
             fin.read().replace(f'initial_mass = 11.0', f'initial_mass = {m:.9f}')
-            .replace(f'x_ctrl(99) = 1e-09', f'x_ctrl(99) = {10**g:.9e}')
+            .replace(f'x_ctrl(99) = 1e-09', f'x_ctrl(99) = {g:.9e}')
         )
 
 os.system(f'cd {sim_path} && ./rn_all && cd ..')
