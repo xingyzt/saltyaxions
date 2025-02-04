@@ -9,12 +9,12 @@ if not os.path.exists('logs'):
     os.makedirs('logs')
 
 m = float(input("mass: m/Msun = "))
-g = float(input("coupling: log(g) = "))
-if g < 0:
-    g = 10**g
+log_g = float(input("coupling: log(g) = "))
+affect = bool(int(input("evolution weight (1 or 0): ")))
+g = 10**log_g
 
 template_path = 'mesa'
-path = f'm{m:04.1f}_g{g:+04.2f}'
+path = f'm{m:04.1f}_g{log_g:+05.2f}{"" if affect else "_0"}'
 sim_path = f'sims/{path}'
 log_path = f'logs/{path}'
 
@@ -29,7 +29,9 @@ with open(f'{template_path}/inlist_make_late_pre_zams') as fin:
 with open(f'{template_path}/inlist_common') as fin:
     with open(f'{sim_path}/inlist_common', "w") as fout:
         fout.write(
-            fin.read().replace(f'x_ctrl(99) = 1e-09', f'x_ctrl(99) = {g:.9e}')
+            fin.read()
+            .replace(f'x_ctrl(99) = 1e-10', f'x_ctrl(99) = {g:.9e}')
+            .replace(f'x_logical_ctrl(99) = .true.', f'x_logical_ctrl(99) = {".true" if affect else ".false"}')
         )
 
 os.system(f'cd {sim_path} && ./rn_all && cd ..')

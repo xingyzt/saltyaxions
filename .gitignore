@@ -1,4 +1,4 @@
-*/.ipynb_checkpoints/*
-*/sims/*
-*/star
-*.o
+**/.ipynb_checkpoints/*
+**/sims/*
+**/star
+**.o

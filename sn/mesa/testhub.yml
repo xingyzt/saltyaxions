@@ -94,3 +94,4 @@
     - inlist: inlist_remove_envelope_header
     - inlist: inlist_to_end_core_c_burn_header
     - inlist: inlist_to_lgTmax_header
+    - inlist: inlist_make_late_pre_zams_header
