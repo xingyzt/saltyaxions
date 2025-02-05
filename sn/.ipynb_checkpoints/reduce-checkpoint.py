@@ -5,12 +5,10 @@ import csv
 import os
 
 slices = False
+affect = False
+masses = [ 24, 26, 28, 30, 32, 40, 46, 50 ]
+couplings = [ -9 ]
 
-# masses = [ 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
-# couplings = [ -9.0, -8.5 ]
-masses = [ 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
-# masses = [ 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
-couplings = [ -8.0 ]
 
 isotopes = [
     'c12', 
@@ -97,6 +95,8 @@ def get_profile(i):
         'lum': b.data('lum_erg_s')
     }
 
+    # data slices: index 0 is surface, index -1 is center
+
     for iso in isotopes:
         p[ iso ] = b.data( iso )
         p[ 'log_' + iso ] = np.nan_to_num(b.data( 'log_' + iso ), -99)
@@ -112,12 +112,14 @@ def get_profile(i):
     p['lum_gamma_surf'] = p['lum_gamma'][0]
     p['T_core'] = p['T'][-1]
 
+    p['m'] = p['m_enc'][0]
+
     return p
 
 for m in masses: 
     for g in couplings:
 
-        path = f'm{m:04.1f}_g{g:+04.2f}'
+        path = f'm{m:04.1f}_g{g:+05.2f}{"" if affect else "_0"}'
         inpath = f'logs/{path}'
         outpath = f'csv/{path}'
         print(path)
@@ -134,7 +136,6 @@ for m in masses:
 
             p['til'] = profiles[N-1]['age'] - p['age']
 
-            p['m'] = m
             p['coupling'] = g
 
             p['cum_e_a'] = p['lum_a_surf'] * p['dt'] * 31536000
