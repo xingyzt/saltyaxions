@@ -45,6 +45,7 @@
       ! axion-nucleon coupling
       use_other_energy = .true.
       x_ctrl(99) = 1e-09
+      x_logical_ctrl(99) = .true.
 
       initial_mass = 11.0
       initial_z = 0.02d0 

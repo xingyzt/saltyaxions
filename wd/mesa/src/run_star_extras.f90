@@ -72,15 +72,20 @@
          E(1:nz) = eps0 * x_na23(1:nz) * g*g / ( exp(T0 / T(1:nz)) + 1.5 )
 
          if (ierr /= 0) return
-         s% extra_heat(1:nz) %val = E(1:nz)
-         !s% extra_heat(:) = s% extra_power_source
-         ! note that extra_heat is type(auto_diff_real_star_order1) so includes partials.
+
+         s% xtra(1) = sum(E(1:nz) * dm(1:nz)) ! total axion power
 
          write (*,*) "effective coupling:"
          write (*,*) g
 
          write (*,*) "total axion power (ergs/s):"
-         write (*,*) sum(E(1:nz) * dm(1:nz))
+         write (*,*) s% xtra(1)
+
+         if (s% x_logical_ctrl(99)) then ! if we want axions to affect evolution
+                 write (*,*) "axion cooling enabled"
+                 s% extra_heat(1:nz) %val = -E(1:nz)
+                 ! note that extra_heat is type(auto_diff_real_star_order1) so includes partials.
+         end if
 
         !do, i=1, nz
         !write (*,*) x_na23(i)
@@ -146,6 +151,15 @@
          include 'formats'
          
          extras_check_model = keep_going
+
+         ! retry if axion emission changes too much
+         if ( abs( s% xtra(1) * s% dt ) > s% x_ctrl(98) ) then
+                 extras_check_model = retry
+                 write(*, *) 'retry: axion emitted exceeds x_ctrl(98) ergs'
+                 write(*, *) s% dt
+                 return
+         end if
+
          
          !if (abs(s% Blocker_scaling_factor - Blocker_scaling_factor_after_TP) < 1d-8) return
          

@@ -5,11 +5,8 @@ import csv
 import os
 
 slices = False
-
-# masses = [ 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
-# couplings = [ -9.0, -8.5 ]
+affect = False
 masses = [ 11 ]
-# masses = [ 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
 couplings = [ 0, -10, -9 ]
 
 isotopes = [
@@ -117,7 +114,7 @@ def get_profile(i):
 for m in masses: 
     for g in couplings:
 
-        path = f'm{m:04.1f}_g{g:+04.2f}'
+        path = f'm{m:04.1f}_g{g:+05.2f}{"" if affect else "_0"}'
         inpath = f'logs/{path}'
         outpath = f'csv/{path}'
         print(path)

@@ -26,7 +26,7 @@
 
 &controls
 
-      initial_mass = 18.0
+      initial_mass = 20.0
       
       ! limit max_model_number as part of test_suite
       max_model_number = 10000
