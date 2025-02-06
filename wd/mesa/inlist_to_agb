@@ -35,7 +35,7 @@
       log_max_temp_upper_limit = 8.6d0
 
       ! limit max_model_number as part of test_suite
-      max_model_number = 1600
+      max_model_number = 3200
 
 ! when to stop
 

@@ -23,7 +23,7 @@
 &controls
 
       ! limit max_model_number as part of test_suite
-      max_model_number = 3500
+      max_model_number = 7000
 
 ! when to stop
       star_species_mass_min_limit = 1d-3 ! Msun
