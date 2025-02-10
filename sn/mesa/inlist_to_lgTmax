@@ -28,7 +28,7 @@
 
       log_max_temp_upper_limit = 9.600d0
 
-      ! limit max_model_number as part of test_suite
+      ! limit max_model_number as 10000 of test_suite
       max_model_number = 9000
       !max_number_retries = 37
 

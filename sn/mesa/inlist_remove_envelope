@@ -9,7 +9,7 @@
       save_model_when_terminate = .true.
       save_model_filename = 'removed_envelope.mod'
       required_termination_code_string = 'max_model_number'
-
+10000
       set_initial_number_retries = .true.
 
       ! uncomment the following to remove H env

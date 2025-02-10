@@ -160,7 +160,7 @@ contains
          extras_check_model = keep_going         
 
          ! retry if axion emission changes too much
-         if ( abs( s% xtra(1) * s% dt ) > s% x_ctrl(98) ) then
+         if ( abs( s% xtra(1) * s% dt ) > s% x_ctrl(98) * s% x_ctrl(99) ) then
                  extras_check_model = retry
                  write(*, *) 'retry: axion emitted exceeds x_ctrl(98) ergs'
                  write(*, *) s% dt
@@ -195,7 +195,7 @@ contains
          ierr = 0
          call star_ptr(id, s, ierr)
          if (ierr /= 0) return
-         how_many_extra_history_columns = 0
+         how_many_extra_history_columns = 1
  end function how_many_extra_history_columns
 
 
@@ -212,6 +212,8 @@ contains
          ! note: do NOT add the extras names to history_columns.list
          ! the history_columns.list is only for the built-in history column options.
          ! it must not include the new column names you are adding here.
+         names(1) = 'axion'
+        vals(1) = s% xtra(1)
          
 
       end subroutine data_for_extra_history_columns
@@ -237,6 +239,7 @@ contains
          integer, intent(out) :: ierr
          type (star_info), pointer :: s
          integer :: k
+
          ierr = 0
          call star_ptr(id, s, ierr)
          if (ierr /= 0) return
@@ -248,7 +251,7 @@ contains
          ! here is an example for adding a profile column
          if (n /= 1) stop 'data_for_extra_profile_columns'
          names(1) = 'axion'
-         do k = 1, nz
+        do k = 1, nz
             vals(k,1) = s% extra_heat(k) %val
          end do
 
@@ -291,7 +294,7 @@ contains
          ierr = 0
          call star_ptr(id, s, ierr)
          if (ierr /= 0) return
-         how_many_extra_profile_header_items = 0
+         how_many_extra_profile_header_items = 2
       end function how_many_extra_profile_header_items
 
 
@@ -307,8 +310,11 @@ contains
 
          ! here is an example for adding an extra profile header item
          ! also set how_many_extra_profile_header_items
-         ! names(1) = 'mixing_length_alpha'
-         ! vals(1) = s% mixing_length_alpha
+         names(1) = 'g_eff'
+         vals(1) = s% x_ctrl(99)
+
+         names(2) = 'lum_axion_surf'
+         vals(2) = s% xtra(1)
 
       end subroutine data_for_extra_profile_header_items
 

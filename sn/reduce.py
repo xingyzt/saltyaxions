@@ -53,9 +53,16 @@ labels = {
 }
 
 for iso in isotopes:
-    labels[iso] = 'X_' + iso
-    labels['log_' + iso] = 'log X_' + iso
-    labels['X_' + iso] = 'avg X_' + iso
+    labels['X_' + iso] = 'X_' + iso
+    labels['log_X_' + iso] = 'log X_' + iso
+    labels['avg_X_' + iso] = 'avg X_' + iso
+
+def eps_a(na23, T, g):
+     eps0 = 8.6E+27 # ergs / g s; baseline
+     T0 = 5.106E+9 # Kelvins; baseline
+     mu0 = 1.5 # unitless; chemical potential
+
+     return eps0 * na23 * g * g / ( np.exp(T0 / T) + mu0 )
 
 def get_profile(i):
 
@@ -66,14 +73,14 @@ def get_profile(i):
     #header
     h = b.header_data 
 
-    # print(h)
-
     # profile
     p = {
         'profile': l.profile_numbers[i],
         'model': l.model_numbers[i],
         'age': h['star_age'],
         'T_eff': h['Teff'],
+        'g_eff': h['g_eff'],
+        'lum_a_surf': h['lum_axion_surf'],
         
         'T': b.data('T'), # Kelvins,
         'log_T': b.data('logT'),
@@ -98,15 +105,17 @@ def get_profile(i):
     # data slices: index 0 is surface, index -1 is center
 
     for iso in isotopes:
-        p[ iso ] = b.data( iso )
-        p[ 'log_' + iso ] = np.nan_to_num(b.data( 'log_' + iso ), -99)
+        p[ 'X_' + iso ] = b.data( iso )
+        p[ 'log_X_' + iso ] = np.nan_to_num(b.data( 'log_' + iso ), -99)
 
-        p[ 'X_' + iso ] = np.sum(p['dm'] * p[iso]) / np.sum(p['dm'])
+        p[ 'avg_X_' + iso ] = np.sum(p['dm'] * p[iso]) / np.sum(p['dm'])
 
+    p['eps_a'] = eps_a(na23=p['na23'], T=p['T'], g=p['g_eff'])
     p['lum_a'] = np.cumsum((p['eps_a'] * p['dm'])[::-1])[::-1]
     p['lum_neu'] = np.cumsum((p['eps_non_nuc_neu'] * p['dm'])[::-1])[::-1]
     p['lum_gamma'] = np.cumsum((p['eps_nuc'] * p['dm'])[::-1])[::-1]
 
+    # print(p['lum_a_surf']/p['lum_a'][0] - 1)
     p['lum_a_surf'] = p['lum_a'][0]
     p['lum_neu_surf'] = p['lum_neu'][0]
     p['lum_gamma_surf'] = p['lum_gamma'][0]
