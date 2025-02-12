@@ -41,11 +41,12 @@ labels = {
     
     'lum_gamma': 'lum_gamma (ergs/s)',
     'lum_neu': 'lum_neu (ergs/s)',
-    'lum_a': 'lum_a (ergs/s)',
+    'num_a': 'num_a (/s)',
     
     'lum_gamma_surf': 'surface lum_gamma (ergs/s)',
     'lum_neu_surf': 'surface lum_neu (ergs/s)',
     'lum_a_surf': 'surface lum_a (ergs/s)',
+    'num_a_surf': 'surface num_a (/s)',
     
     'cum_e_gamma': 'cumulative e_gamma (ergs)',
     'cum_e_neu': 'cumulative e_neu (ergs)',
@@ -112,11 +113,13 @@ def get_profile(i):
 
     p['eps_a'] = eps_a(na23=p['na23'], T=p['T'], g=p['g_eff'])
     p['lum_a'] = np.cumsum((p['eps_a'] * p['dm'])[::-1])[::-1]
+    p['num_a'] = p['lum_a'] * 1418524 # axions/erg
     p['lum_neu'] = np.cumsum((p['eps_non_nuc_neu'] * p['dm'])[::-1])[::-1]
     p['lum_gamma'] = np.cumsum((p['eps_nuc'] * p['dm'])[::-1])[::-1]
 
     # print(p['lum_a_surf']/p['lum_a'][0] - 1)
     p['lum_a_surf'] = p['lum_a'][0]
+    p['num_a_surf'] = p['num_a'][0]
     p['lum_neu_surf'] = p['lum_neu'][0]
     p['lum_gamma_surf'] = p['lum_gamma'][0]
     p['T_core'] = p['T'][-1]
