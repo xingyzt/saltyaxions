@@ -162,7 +162,7 @@ contains
          ! retry if axion emission changes too much
          if ( abs( s% xtra(1) * s% dt ) > s% x_ctrl(98) * s% x_ctrl(99) ) then
                  extras_check_model = retry
-                 write(*, *) 'retry: axion emitted exceeds x_ctrl(98) ergs'
+                 write(*, *) 'retry: axion emitted exceeds x_ctrl(98) x_ctrl(99) ergs'
                  write(*, *) s% dt
                  return
          end if
@@ -195,7 +195,7 @@ contains
          ierr = 0
          call star_ptr(id, s, ierr)
          if (ierr /= 0) return
-         how_many_extra_history_columns = 1
+         how_many_extra_history_columns = 0
  end function how_many_extra_history_columns
 
 
@@ -212,8 +212,6 @@ contains
          ! note: do NOT add the extras names to history_columns.list
          ! the history_columns.list is only for the built-in history column options.
          ! it must not include the new column names you are adding here.
-         names(1) = 'axion'
-        vals(1) = s% xtra(1)
          
 
       end subroutine data_for_extra_history_columns
@@ -257,36 +255,6 @@ contains
 
       end subroutine data_for_extra_profile_columns
 
-
-      integer function how_many_extra_history_header_items(id)
-         integer, intent(in) :: id
-         integer :: ierr
-         type (star_info), pointer :: s
-         ierr = 0
-         call star_ptr(id, s, ierr)
-         if (ierr /= 0) return
-         how_many_extra_history_header_items = 0
-      end function how_many_extra_history_header_items
-
-
-      subroutine data_for_extra_history_header_items(id, n, names, vals, ierr)
-         integer, intent(in) :: id, n
-         character (len=maxlen_history_column_name) :: names(n)
-         real(dp) :: vals(n)
-         type(star_info), pointer :: s
-         integer, intent(out) :: ierr
-         ierr = 0
-         call star_ptr(id,s,ierr)
-         if(ierr/=0) return
-
-         ! here is an example for adding an extra history header item
-         ! also set how_many_extra_history_header_items
-         ! names(1) = 'mixing_length_alpha'
-         ! vals(1) = s% mixing_length_alpha
-
-      end subroutine data_for_extra_history_header_items
-
-
       integer function how_many_extra_profile_header_items(id)
          integer, intent(in) :: id
          integer :: ierr
@@ -317,6 +285,36 @@ contains
          vals(2) = s% xtra(1)
 
       end subroutine data_for_extra_profile_header_items
+
+
+      integer function how_many_extra_history_header_items(id)
+         integer, intent(in) :: id
+         integer :: ierr
+         type (star_info), pointer :: s
+         ierr = 0
+         call star_ptr(id, s, ierr)
+         if (ierr /= 0) return
+         how_many_extra_history_header_items = 0
+      end function how_many_extra_history_header_items
+
+
+      subroutine data_for_extra_history_header_items(id, n, names, vals, ierr)
+         integer, intent(in) :: id, n
+         character (len=maxlen_history_column_name) :: names(n)
+         real(dp) :: vals(n)
+         type(star_info), pointer :: s
+         integer, intent(out) :: ierr
+         ierr = 0
+         call star_ptr(id,s,ierr)
+         if(ierr/=0) return
+
+         ! here is an example for adding an extra history header item
+         ! also set how_many_extra_history_header_items
+         ! names(1) = 'mixing_length_alpha'
+         ! vals(1) = s% mixing_length_alpha
+
+      end subroutine data_for_extra_history_header_items
+
 
 
       ! returns either keep_going or terminate.

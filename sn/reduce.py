@@ -63,7 +63,7 @@ def eps_a(na23, T, g):
      T0 = 5.106E+9 # Kelvins; baseline
      mu0 = 1.5 # unitless; chemical potential
 
-     return eps0 * na23 * g * g / ( np.exp(T0 / T) + mu0 )
+     return eps0 * na23 * g * g * np.exp(-T0/T) / ( 1 + mu0 * np.exp(-T0/T) )
 
 def get_profile(i):
 
@@ -109,9 +109,9 @@ def get_profile(i):
         p[ 'X_' + iso ] = b.data( iso )
         p[ 'log_X_' + iso ] = np.nan_to_num(b.data( 'log_' + iso ), -99)
 
-        p[ 'avg_X_' + iso ] = np.sum(p['dm'] * p[iso]) / np.sum(p['dm'])
+        p[ 'avg_X_' + iso ] = np.sum(p['dm'] * p[ 'X_' + iso]) / np.sum(p['dm'])
 
-    p['eps_a'] = eps_a(na23=p['na23'], T=p['T'], g=p['g_eff'])
+    p['eps_a'] = eps_a(na23=p['X_na23'], T=p['T'], g=p['g_eff'])
     p['lum_a'] = np.cumsum((p['eps_a'] * p['dm'])[::-1])[::-1]
     p['num_a'] = p['lum_a'] * 1418524 # axions/erg
     p['lum_neu'] = np.cumsum((p['eps_non_nuc_neu'] * p['dm'])[::-1])[::-1]

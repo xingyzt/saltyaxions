@@ -44,7 +44,7 @@
 
       ! axion-nucleon coupling
       use_other_energy = .true.
-      x_ctrl(98) = 1e44 ! axion delta change limit (ergs)
+      x_ctrl(98) = 1e54 ! axion delta change limit (ergs / g_eff)
       x_ctrl(99) = 1e-09
       x_logical_ctrl(99) = .true.
 

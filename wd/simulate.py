@@ -14,7 +14,7 @@ affect = bool(int(input("evolution weight (1 or 0): ")))
 g = 10**log_g
 
 template_path = 'mesa'
-path = f'm{m:04.1f}_g{log_g:+05.2f}{"" if affect else "_0"}'
+path = f'm{m:04.1f}_g{log_g:+06.2f}{"" if affect else "_0"}'
 sim_path = f'sims/{path}'
 log_path = f'logs/{path}'
 

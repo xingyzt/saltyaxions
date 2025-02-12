@@ -42,10 +42,12 @@ labels = {
     'lum_gamma': 'lum_gamma (ergs/s)',
     'lum_neu': 'lum_neu (ergs/s)',
     'lum_a': 'lum_a (ergs/s)',
+    'num_a': 'num_a (/s)',
     
     'lum_gamma_surf': 'surface lum_gamma (ergs/s)',
     'lum_neu_surf': 'surface lum_neu (ergs/s)',
     'lum_a_surf': 'surface lum_a (ergs/s)',
+    'num_a_surf': 'surface num_a (/s)',
     
     'cum_e_gamma': 'cumulative e_gamma (ergs)',
     'cum_e_neu': 'cumulative e_neu (ergs)',
@@ -53,9 +55,16 @@ labels = {
 }
 
 for iso in isotopes:
-    labels[iso] = 'X_' + iso
-    labels['log_' + iso] = 'log X_' + iso
-    labels['X_' + iso] = 'avg X_' + iso
+    labels['X_' + iso] = 'X_' + iso
+    labels['log_X_' + iso] = 'log X_' + iso
+    labels['avg_X_' + iso] = 'avg X_' + iso
+
+def eps_a(na23, T, g):
+     eps0 = 8.6E+27 # ergs / g s; baseline
+     T0 = 5.106E+9 # Kelvins; baseline
+     mu0 = 1.5 # unitless; chemical potential
+
+     return eps0 * na23 * g * g * np.exp(-T0/T) / ( 1 + mu0 * np.exp(-T0/T) )
 
 def get_profile(i):
 
@@ -98,16 +107,19 @@ def get_profile(i):
     # data slices: index 0 is surface, index -1 is center
 
     for iso in isotopes:
-        p[ iso ] = b.data( iso )
-        p[ 'log_' + iso ] = np.nan_to_num(b.data( 'log_' + iso ), -99)
+        p[ 'X_' + iso ] = b.data( iso )
+        p[ 'log_X_' + iso ] = np.nan_to_num(b.data( 'log_' + iso ), -99)
 
-        p[ 'X_' + iso ] = np.sum(p['dm'] * p[iso]) / np.sum(p['dm'])
+        p[ 'avg_X_' + iso ] = np.sum(p['dm'] * p['X_' + iso]) / np.sum(p['dm'])
 
+    p['eps_a'] = eps_a(na23=p['na23'], T=p['T'], g=p['g_eff'])
     p['lum_a'] = np.cumsum((p['eps_a'] * p['dm'])[::-1])[::-1]
+    p['num_a'] = p['lum_a'] * 1418524 # axions/erg
     p['lum_neu'] = np.cumsum((p['eps_non_nuc_neu'] * p['dm'])[::-1])[::-1]
     p['lum_gamma'] = np.cumsum((p['eps_nuc'] * p['dm'])[::-1])[::-1]
 
     p['lum_a_surf'] = p['lum_a'][0]
+    p['num_a_surf'] = p['num_a'][0]
     p['lum_neu_surf'] = p['lum_neu'][0]
     p['lum_gamma_surf'] = p['lum_gamma'][0]
     p['T_core'] = p['T'][-1]
