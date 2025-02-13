@@ -64,7 +64,7 @@
         
       ! axion-nucleon coupling
       use_other_energy = .true.
-      x_ctrl(98) = 1e54 ! axion delta change limit (ergs per g_eff)
+      x_ctrl(98) = 1e55 ! axion delta change limit (ergs per g_eff)
       x_ctrl(99) = 1e-10 ! axion coupling (dimensionless)
       x_logical_ctrl(99) = .true. ! whether to account axion heat loss in evolution
 
