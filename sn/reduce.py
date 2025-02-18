@@ -137,9 +137,18 @@ for m in masses:
         print(path)
 
         l = mr.MesaLogDir(inpath)
-        N = len(l.profile_numbers)
-        profiles = list(ProcessPoolExecutor().map(get_profile, range(N)))
+        N_raw = len(l.profile_numbers)
+        profiles_raw = list(ProcessPoolExecutor().map(get_profile, range(N_raw)))
+        profiles = []
 
+        dt = 0
+        for (i, p) in enumerate(profiles_raw):
+            dt += p['dt']
+            if dt > 1e-6: # threshold for minimum timestep
+                p['dt'] = dt
+                profiles.append(p)
+                dt = 0
+        N = len(profiles)
 
         if not os.path.exists(outpath):
             os.makedirs(outpath)
