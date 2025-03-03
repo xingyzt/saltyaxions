@@ -1,6 +1,8 @@
-**/.ipynb_checkpoints/*
-**/sims
-**/star
-**/logs
-**.o
-**.mod
+*.zip
+slice_*.csv
+.ipynb_checkpoints
+sims
+star
+logs
+*.o
+*.mod
