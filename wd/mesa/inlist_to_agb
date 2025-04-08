@@ -35,7 +35,7 @@
       log_max_temp_upper_limit = 8.6d0
 
       ! limit max_model_number as part of test_suite
-      max_model_number = 3200
+      max_model_number = 4000
 
 ! when to stop
 
@@ -47,7 +47,7 @@
       cool_wind_AGB_scheme = 'Blocker'
       RGB_to_AGB_wind_switch = 1d-4
       Reimers_scaling_factor = 0.5  
-      Blocker_scaling_factor = 0.5
+      Blocker_scaling_factor = 0.05
 
 ! atmosphere
 

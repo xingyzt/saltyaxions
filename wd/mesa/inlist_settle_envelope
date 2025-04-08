@@ -23,7 +23,7 @@
 &controls
 
       ! limit max_model_number as part of test_suite
-      max_model_number = 8000
+      max_model_number = 40000
 
 
 ! when to stop
