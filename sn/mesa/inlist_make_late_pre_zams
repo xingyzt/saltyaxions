@@ -29,7 +29,7 @@
       initial_mass = 20.0
       
       ! limit max_model_number as 10000 of test_suite
-      max_model_number = 10000
+      max_model_number = 40000
       use_gold2_tolerances = .true.
       
       max_age = 1d3

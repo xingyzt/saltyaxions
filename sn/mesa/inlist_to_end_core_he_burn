@@ -34,7 +34,7 @@
       xa_central_lower_limit(1) = 1d-6
 
       ! limit max_model_number as 10000 of test_suite
-      max_model_number = 3000
+      max_model_number = 40000
       !max_number_retries = 58
 
 ! wind

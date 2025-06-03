@@ -1,8 +1,12 @@
 *.zip
 slice_*.csv
+slices.hdf5
 .ipynb_checkpoints
 sims
+csv_simplified
+csv_simple_new
 star
 logs
+*.png
 *.o
 *.mod

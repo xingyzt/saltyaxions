@@ -4,10 +4,10 @@ from concurrent.futures import ProcessPoolExecutor
 import csv
 import os
 
-slices = False
+slices = True
 affect = False
-masses = [ 24, 26, 28, 30, 32, 40, 46, 50 ]
-couplings = [ -9 ]
+masses = [ 11]
+couplings = [ -10 ]
 
 
 isotopes = [
@@ -15,6 +15,22 @@ isotopes = [
     'o16', 
     'ne20', 
     'na23',
+   'h1',
+   'he3',
+   'he4',
+   'n14',
+   'mg24',
+   'si28',
+   's32',
+   'ar36',
+   'ca40',
+   'ti44',
+   'cr48',
+   'fe52',
+   'fe54',
+   'ni56',
+   'neut',
+   'prot',
 ]
 
 labels = {
@@ -22,7 +38,7 @@ labels = {
     'm': 'mass (Msun)',
     'coupling': 'coupling',
     'age': 'age (years)',
-    'til': 'time to core O depletion (years)',
+    'til': 'time to solar luminosity (years)',
     'dt': 'dt (years)',
     
     'm_enc': 'mass enclosed (Msun)',
@@ -36,7 +52,7 @@ labels = {
     
     'eps_grav': 'eps_grav (ergs/g s)',
     'eps_nuc': 'eps_nuc (ergs/g s)', 
-    'eps_non_nuc_neu': 'eps_neu (ergs/g s)',
+    'eps_neu': 'eps_neu (ergs/g s)',
     'eps_a': 'eps_a (ergs/g s)',
     
     'lum_gamma': 'lum_gamma (ergs/s)',
@@ -58,6 +74,12 @@ for iso in isotopes:
     labels['X_' + iso] = 'X_' + iso
     labels['log_X_' + iso] = 'log X_' + iso
     labels['avg_X_' + iso] = 'avg X_' + iso
+
+labels['T_max'] = 'max T (K)'
+labels['lum_nuc'] = 'lum_nuc (ergs/s)'
+labels['lum_nuc_surf'] = 'surface lum_nuc (ergs/s)'
+labels['cum_e_nuc'] = 'cumulative e_nuc (ergs)'
+labels['R_surf'] = 'surface R (Rsun)'
 
 def eps_a(na23, T, g):
      eps0 = 8.6E+27 # ergs / g s; baseline
@@ -97,11 +119,12 @@ def get_profile(i):
         # 'eps_nuc_neu': b.data('eps_nuc_neu_total'),
         # 'eps_nuc_plus_nuc_neu': b.data('eps_nuc_plus_nuc_neu'),
         # 'eps_nuc_start': b.data('eps_nuc_start'),
+        'eps_nuc_neu': b.data('eps_nuc_neu_total'),
         'eps_non_nuc_neu': b.data('non_nuc_neu'),
-        'eps_a': b.data('axion'),
+        # 'eps_a': b.data('axion'),
         # 'net_nuclear_energy': 10**b.data('net_nuclear_energy'),
         # 'net_energy': 10**b.data('net_energy'),
-        'lum': b.data('lum_erg_s')
+        'lum_gamma': b.data('lum_erg_s')
     }
 
     # data slices: index 0 is surface, index -1 is center
@@ -112,17 +135,21 @@ def get_profile(i):
 
         p[ 'avg_X_' + iso ] = np.sum(p['dm'] * p['X_' + iso]) / np.sum(p['dm'])
 
-    p['eps_a'] = eps_a(na23=p['na23'], T=p['T'], g=p['g_eff'])
+    p['eps_neu'] = p['eps_non_nuc_neu'] + p['eps_nuc_neu']
+    p['eps_a'] = eps_a(na23=p['X_na23'], T=p['T'], g=1e-10)
     p['lum_a'] = np.cumsum((p['eps_a'] * p['dm'])[::-1])[::-1]
     p['num_a'] = p['lum_a'] * 1418524 # axions/erg
-    p['lum_neu'] = np.cumsum((p['eps_non_nuc_neu'] * p['dm'])[::-1])[::-1]
-    p['lum_gamma'] = np.cumsum((p['eps_nuc'] * p['dm'])[::-1])[::-1]
+    p['lum_neu'] = np.cumsum((p['eps_neu'] * p['dm'])[::-1])[::-1]
+    p['lum_nuc'] = np.cumsum((p['eps_nuc'] * p['dm'])[::-1])[::-1]
 
     p['lum_a_surf'] = p['lum_a'][0]
     p['num_a_surf'] = p['num_a'][0]
     p['lum_neu_surf'] = p['lum_neu'][0]
+    p['lum_nuc_surf'] = p['lum_nuc'][0]
     p['lum_gamma_surf'] = p['lum_gamma'][0]
+    p['R_surf'] = p['r'][0]
     p['T_core'] = p['T'][-1]
+    p['T_max'] = np.max(p['T'])
 
     p['m'] = p['m_enc'][0]
 
@@ -152,11 +179,13 @@ for m in masses:
 
             p['cum_e_a'] = p['lum_a_surf'] * p['dt'] * 31536000
             p['cum_e_neu'] = p['lum_neu_surf'] * p['dt'] * 31536000
+            p['cum_e_nuc'] = p['lum_nuc_surf'] * p['dt'] * 31536000
             p['cum_e_gamma'] = p['lum_gamma_surf'] * p['dt'] * 31536000
             
             if i > 0:
                 p['cum_e_a'] += profiles[i-1]['cum_e_a']
                 p['cum_e_neu'] += profiles[i-1]['cum_e_neu']
+                p['cum_e_nuc'] += profiles[i-1]['cum_e_nuc']
                 p['cum_e_gamma'] += profiles[i-1]['cum_e_gamma']
 
         with open(f'{outpath}/index.csv', 'w', newline='') as csvfile:
