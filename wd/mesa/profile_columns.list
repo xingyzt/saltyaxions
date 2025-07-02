@@ -318,15 +318,46 @@
    !add_abundances ! this adds all of the isos that are in the current net
    ! NOTE: you can list specific isotopes by giving their names (from chem_def)
    h1
+   h2
    he3
    he4
+   li7
+   be7
+   be9
+   be10
    c12
+   c13
+   n13
    n14
+   n15
+   o14
+   o15
    o16
+   o17
+   o18
+   f17
+   f18
+   f19
+   ne18
+   ne19
    ne20
+   ne21
+   ne22
+   na21
+   na22
    na23
+   na24
+   mg23
    mg24
+   mg25
+   mg26
+   al25
+   al26
+   al27
+   si27
    si28
+   si29
+   si30
    s32
    ar36
    ca40
@@ -340,26 +371,26 @@
 
    !add_log_abundances ! this adds log10 of all of the isos that are in the current net
    ! NOTE: you can list specific isotopes by giving their names (from chem_def)
-   log h1
-   log he3
-   log he4
-   log c12
-   log n14
-   log o16
-   log ne20
-   log na23
-   log mg24
-   log si28
-   log s32
-   log ar36
-   log ca40
-   log ti44
-   log cr48
-   log fe52
-   log fe54
-   log ni56
-   log neut
-   log prot
+   ! log h1
+   ! log he3
+   ! log he4
+   ! log c12
+   ! log n14
+   ! log o16
+   ! log ne20
+   ! log na23
+   ! log mg24
+   ! log si28
+   ! log s32
+   ! log ar36
+   ! log ca40
+   ! log ti44
+   ! log cr48
+   ! log fe52
+   ! log fe54
+   ! log ni56
+   ! log neut
+   ! log prot
       
    ! log concentration of species
       ! concentration = number density / number density of electrons

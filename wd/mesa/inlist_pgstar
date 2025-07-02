@@ -15,7 +15,8 @@ pgstar_show_age = .false.
 
 !------------------------------------------------------------------------------------
 
-Grid1_win_flag = .true.
+!Grid1_win_flag = .true.
+Grid1_file_flag = .true.
 Grid1_win_width = 12
 Grid1_win_aspect_ratio = 0.666
 
@@ -369,7 +370,8 @@ Text_Summary1_name(6,5) = 'num_retries'
 
 ! Abundance profile plot
 
-Abundance_win_flag = .true.
+!Abundance_win_flag = .true.
+Abundance_file_flag = .true.
 
 ! window properties
 Abundance_win_width = 10
